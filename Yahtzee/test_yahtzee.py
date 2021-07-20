@@ -1,5 +1,5 @@
 from unittest import TestCase
-from yahtzee import Yahtzee, RollLimitError
+from yahtzee import Yahtzee, RollLimitError, HandNotRolledError
 
 
 class TestRolling(TestCase):
@@ -36,4 +36,22 @@ class TestRolling(TestCase):
 		yahtzee.roll()
 		self.assertRaises(RollLimitError, yahtzee.roll)
 	
+	def test_roll_limit_with_different_limits(self):
+		yahtzee = Yahtzee(roll_limit=5)
+		yahtzee.roll()
+		yahtzee.roll()
+		yahtzee.roll()
+		yahtzee.roll()
+		yahtzee.roll()
+		self.assertRaises(RollLimitError, yahtzee.roll)
+		
+	def test_roll_with_dice(self):
+		yahtzee = Yahtzee()
+		self.assertRaises(HandNotRolledError, yahtzee.hand)
+		yahtzee.roll()
+		hand = yahtzee.hand()
+		self.assertIsInstance(hand, list)
+		yahtzee.roll()
+		hand2 = yahtzee.hand()
+		self.assertTrue(hand != hand2)
 	

@@ -1,3 +1,8 @@
+from random import choice 
+
+class HandNotRolledError(Exception):
+	pass
+
 class RollLimitError(Exception):
 	pass
 
@@ -13,4 +18,10 @@ class Yahtzee:
 		
 	def score(self):
 		self.roll_count = 0
+	
+	def hand(self):
+		if self.roll_count == 0:
+			raise HandNotRolledError("Player must roll before they can read their hand")
+		else:
+			return [choice([1,2,3,4,5,6])]
 		
